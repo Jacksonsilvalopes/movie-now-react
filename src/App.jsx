@@ -1,12 +1,15 @@
 
-
+import Main from './pages/Main'
 function App() {
 
 
   return (
-  
-     <h1>Movie Now</h1>
-    
+    <>
+      < Main />
+     
+    </>
+
+
   )
 }
 
