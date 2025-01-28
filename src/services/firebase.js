@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyAM200s3VHY5UMEZr-6YiNg4bn1PndylV4",
     authDomain: "movie-now-9cab3.firebaseapp.com",
@@ -11,5 +12,6 @@ const firebaseConfig = {
   };
 
   const firebase = initializeApp(firebaseConfig);
+
 
 export default firebase;

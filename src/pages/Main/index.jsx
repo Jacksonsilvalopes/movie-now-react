@@ -1,53 +1,55 @@
-import React, { Component } from "react";
-import { Container, Card, Row, Col, Button, Table } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Card } from 'react-bootstrap';
+import Header from "../../components/Header";
+import { StyledH1, StyledContainer, StyledButton, StyledCardText, StyledCard, StyledCardImg, StyledCardBody, StyledRow } from './styles';
+import { collection, getDocs } from "firebase/firestore";
+import { getFirestore } from 'firebase/firestore';
 
-class index extends Component {
-    state = {}
-    render() {
-        return (
-            <>
-                <Container style={{
-                    paddingTop: 50,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    minWidth: 300,
-                }}>
-                    <h1 style={{
-                        color: '#fff', marginTop: 20,
-                    }}>Movie Now</h1>
-                    <Row style={{ display: 'flex', justifyContent: 'center' }}>
-                        <Card style={{ width: 250, margin: 10 }}>
-                            <Card.Img style={{ width: 210, height: 300, alignSelf: 'center', paddingTop: 20, cursor: 'pointer' }} variant="top" src="https://images.justwatch.com/poster/322874505/s718/temporada-1.jpg" />
-                            <Card.Body style={{
-                                display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
-                            }}>
-                                <Card.Title>Card Title</Card.Title>
-                                <Card.Text style={{ fontSize: 12 }}>
-                                    Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.
-                                </Card.Text>
-                                <Button style={{ width: '100%'}} variant="outline-dark">Go somewhere</Button>
-                            </Card.Body>
-                        </Card>
-                        <Card style={{ width: 250, margin: 10 }}>
-                            <Card.Img style={{ width: 210, height: 300, alignSelf: 'center', paddingTop: 20, cursor: 'pointer' }} variant="top" src="https://www.cineseries.com.br/images/stories/Fotos_de_posts/Prison_break_srie_completa.jpg" />
-                            <Card.Body style={{
-                                display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
-                            }}>
-                                <Card.Title>Card Title</Card.Title>
-                                <Card.Text style={{ fontSize: 12 }}>
-                                    Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.
-                                </Card.Text>
-                                <Button style={{ width: '100%'}} variant="outline-dark">Go somewhere</Button>
-                            </Card.Body>
-                        </Card>
-                    </Row>
-                </Container>
-            </>
-        );
-    }
+
+function Main() {
+
+    const [movies, setMovies] = useState([]);
+    useEffect(() => {
+
+        async function loadMovies() {
+            const db = getFirestore();
+            const querySnapshot = await getDocs(collection(db, "movies"));
+            const arrayMovies = [];
+            querySnapshot.forEach((doc) => {
+                arrayMovies.push(doc.data());
+            });
+            setMovies(arrayMovies);
+
+        }
+
+        loadMovies();
+
+    }, [])
+
+    return (
+        <>
+            <Header />
+            <StyledContainer >
+                <StyledH1>Movie Now</StyledH1>
+                <StyledRow >
+                    {movies.map((movie) => (
+
+
+                        <StyledCard key={movie.id}>
+                            <StyledCardImg variant="top" src={movie.url_picture} />
+                            <StyledCardBody >
+                                <Card.Title>{movie.name}</Card.Title>
+                                <StyledCardText>
+                                    {movie.description}
+                                </StyledCardText>
+                                <StyledButton variant="outline-dark">Go somewhere</StyledButton>
+                            </StyledCardBody>
+                        </StyledCard>
+                    ))}
+                </StyledRow>
+            </StyledContainer>
+        </>
+    )
 }
 
-export default index;
+export default Main;
