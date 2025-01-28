@@ -6,6 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 
 
+
 function Main() {
 
     const [movies, setMovies] = useState([]);

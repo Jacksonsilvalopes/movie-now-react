@@ -1,16 +1,14 @@
+import { BrowserRouter } from "react-router";
+import Rotas from './routes';
 
-import Main from "./pages/Main"
 function App() {
 
 
   return (
-    <>
-     <Main />
-     
-    </>
-
-
-  )
+    <BrowserRouter>
+      <Rotas />
+    </BrowserRouter>
+      )
 }
 
 export default App
